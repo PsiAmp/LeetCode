@@ -2,34 +2,29 @@ package problems;
 
 public class UniquePaths2_63 {
 
-    private int width;
-    private int height;
-
     public int uniquePathsWithObstacles(int[][] obstacleGrid) {
-        width = obstacleGrid.length;
-        height = obstacleGrid[0].length;
+        int width = obstacleGrid.length;
+        int height = obstacleGrid[0].length;
 
-        return checkPoint(obstacleGrid, 0, 0);
-    }
+        boolean hitWall = false;
+        for (int i = 0; i < width; i++) {
+            if (obstacleGrid[i][0] == 1) hitWall = true;
+            obstacleGrid[i][0] = hitWall ?  0 : 1;
+        }
 
-    public int checkPoint(int obsticleGrid[][], int x, int y) {
-        if (isOutOfBounds(x, y) || obsticleGrid[x][y] != 0) return 0;
-        if (isFinish(x, y)) return 1;
+        hitWall = false;
+        for (int i = 0; i < height; i++) {
+            if (obstacleGrid[i][0] == 1) hitWall = true;
+            obstacleGrid[i][0] = hitWall ?  0 : 1;
+        }
 
-        int counter = 0;
-        counter += checkPoint(obsticleGrid, x+1, y);
-        counter += checkPoint(obsticleGrid, x, y+1);
-        return counter;
-    }
+        for (int i = 1; i < width; i++) {
+            for (int j = 1; j < height; j++) {
+                obstacleGrid[i][j] = obstacleGrid[i-1][j] + obstacleGrid[i][j-1];
+            }
+        }
 
-    public boolean isFinish(int x, int y) {
-        if (x == width-1 && y == height-1) return true;
-        return false;
-    }
-
-    public boolean isOutOfBounds(int x, int y) {
-        if (x < width && y < height) return false;
-        return true;
+        return obstacleGrid[width-1][height-1];
     }
 
     public static int[][] input ={
