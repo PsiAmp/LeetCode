@@ -9,25 +9,27 @@ public class UniquePaths2_63 {
         boolean hitWall = false;
         for (int i = 0; i < width; i++) {
             if (obstacleGrid[i][0] == 1) hitWall = true;
-            obstacleGrid[i][0] = hitWall ?  0 : 1;
+            obstacleGrid[i][0] = hitWall ?  0 : -1;
         }
 
         hitWall = false;
         for (int i = 0; i < height; i++) {
-            if (obstacleGrid[i][0] == 1) hitWall = true;
-            obstacleGrid[i][0] = hitWall ?  0 : 1;
+            if (obstacleGrid[0][i] == 1) hitWall = true;
+            obstacleGrid[0][i] = hitWall ?  0 : -1;
         }
 
         for (int i = 1; i < width; i++) {
             for (int j = 1; j < height; j++) {
-                obstacleGrid[i][j] = obstacleGrid[i-1][j] + obstacleGrid[i][j-1];
+                int x = obstacleGrid[i-1][j] == 1 ? 0 : obstacleGrid[i-1][j];
+                int y = obstacleGrid[i][j-1] == 1 ? 0 : obstacleGrid[i][j-1];
+                obstacleGrid[i][j] = x + y;
             }
         }
 
-        return obstacleGrid[width-1][height-1];
+        return obstacleGrid[width-1][height-1] * -1;
     }
 
-    public static int[][] input ={
+    public static int[][] input = {
             {0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
             {0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0},
