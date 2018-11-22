@@ -14,8 +14,6 @@ public class BinaryTreeRightSideView_199 {
         }
     }
 
-
-
     public List<Integer> rightSideView(TreeNode root) {
         List<Integer> result = new ArrayList();
         if (root == null) return result;
