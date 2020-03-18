@@ -68,6 +68,18 @@ public class FindFirstAndLastPositionOfElementInSortedArray_34 {
         return result;
     }
 
+    /**
+     * This solution utilizes binary search with the following optimization
+     * 1. Search for any target in nums
+     * 2. Reuse left and right indices to search lefmost and rightmost target positions
+     * 3. Use separate functions for each search direction, to save on unnecessary branching
+     *  Downside is 3 functions that look almost identical
+     * @param nums
+     * @param left
+     * @param right
+     * @param target
+     * @return
+     */
     public int[] binaryRangeOptimized(int nums[], int left, int right, int target) {
         int[] result = {-1, -1};
 
