@@ -25,14 +25,17 @@ public class SnakeTheGame extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
-        g.setColor(Color.BLACK);
+        g.setColor(new Color(0xc0d41b));
         g.fillRect(0, 0, getWidth(), getHeight());
 
-        g.setColor(Color.WHITE);
+        int i = 0;
         for (Coordinate snakeElement : snake.getBody()) {
+            g.setColor(new Color(47, 59,13, 255 - 255*i/snake.getBody().size()/2));
             g.drawRect(snakeElement.x * rectangleSize, snakeElement.y * rectangleSize, rectangleSize, rectangleSize);
+            i++;
         }
 
+        g.setColor(new Color(0x2f3b0d));
         Coordinate food = board.getFood();
         int fX = food.x * rectangleSize;
         int fY = food.y * rectangleSize;
