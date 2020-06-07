@@ -173,10 +173,77 @@ public class P2SlidingWIndow {
         return maxLength;
     }
 
+    /**
+     * https://leetcode.com/problems/max-consecutive-ones-iii/
+     */
+    public static int longestSubarrayWithOnes(int[] A, int K) {
+        int left = 0;
+        int right = 0;
+        int[] counter = new int[2];
+
+        while (right < A.length) {
+            counter[A[right]]++;
+
+            if (counter[0] > K) {
+                counter[A[left]]--;
+                left++;
+            }
+
+            right++;
+        }
+
+        return right - left;
+    }
+
+    /**
+     * Given a string and a pattern, find out if the string contains any permutation of the pattern.
+     */
+    public static boolean challenge1(String s, String p) {
+        HashMap<Character, Integer> patternCounter = new HashMap<>();
+        for (int i = 0; i < p.length(); i++) {
+            patternCounter.put(p.charAt(i), 0);
+        }
+
+        int patternSize = patternCounter.size();
+        int left = 0;
+        int patternCharsInWindow = 0;
+
+        for (int right = 0; right < s.length(); right++) {
+            char rightChar = s.charAt(right);
+
+            if (patternCounter.containsKey(rightChar)) {
+                Integer rightCharCount = patternCounter.get(rightChar);
+
+                if (rightCharCount == 0)
+                    patternCharsInWindow++;
+
+                patternCounter.put(rightChar, rightCharCount + 1);
+            }
+
+            if (right - left >= patternSize) {
+                char leftChar = s.charAt(left);
+                if (patternCounter.containsKey(leftChar)) {
+                    Integer leftCharCount = patternCounter.get(leftChar);
+                    leftCharCount = Math.max(leftCharCount - 1, 0);
+                    patternCounter.put(leftChar, leftCharCount);
+                    if (leftCharCount == 0)
+                        patternCharsInWindow--;
+                }
+                left++;
+            }
+
+            if (patternCharsInWindow == patternSize)
+                return true;
+        }
+
+        return false;
+    }
+
     public static void main(String[] args) {
-        System.out.println(longestSubstringWithSameLettersAfterReplacement("aabccbb", 2));
-        System.out.println(longestSubstringWithSameLettersAfterReplacement("abbcb", 1));
-        System.out.println(longestSubstringWithSameLettersAfterReplacement("abccde", 1));
+        System.out.println(challenge1("oidbcaf", "abc"));
+        System.out.println(challenge1("odicf", "dc"));
+        System.out.println(challenge1("bcdxabcdy", "bcdyabcdx"));
+        System.out.println(challenge1("aaacb", "abc"));
     }
 
 }
