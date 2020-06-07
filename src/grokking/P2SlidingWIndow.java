@@ -199,41 +199,47 @@ public class P2SlidingWIndow {
      * Given a string and a pattern, find out if the string contains any permutation of the pattern.
      */
     public static boolean challenge1(String s, String p) {
-        HashMap<Character, Integer> patternCounter = new HashMap<>();
+        HashMap<Character, Integer> charCountMap = new HashMap<>();
+
         for (int i = 0; i < p.length(); i++) {
-            patternCounter.put(p.charAt(i), 0);
+            charCountMap.put(p.charAt(i), charCountMap.getOrDefault(p.charAt(i), 0) + 1);
         }
 
-        int patternSize = patternCounter.size();
+
         int left = 0;
-        int patternCharsInWindow = 0;
+        int matched = 0;
 
         for (int right = 0; right < s.length(); right++) {
             char rightChar = s.charAt(right);
 
-            if (patternCounter.containsKey(rightChar)) {
-                Integer rightCharCount = patternCounter.get(rightChar);
+            if (charCountMap.containsKey(rightChar)) {
+                Integer rightCharCount = charCountMap.get(rightChar) - 1;
+                charCountMap.put(rightChar, rightCharCount);
 
-                if (rightCharCount == 0)
-                    patternCharsInWindow++;
-
-                patternCounter.put(rightChar, rightCharCount + 1);
+                if (rightCharCount == 0) {
+                    matched++;
+                }
             }
 
-            if (right - left >= patternSize) {
+            if (matched == charCountMap.size()) {
+                return true;
+            }
+
+            if (right >= p.length() -1) {
                 char leftChar = s.charAt(left);
-                if (patternCounter.containsKey(leftChar)) {
-                    Integer leftCharCount = patternCounter.get(leftChar);
-                    leftCharCount = Math.max(leftCharCount - 1, 0);
-                    patternCounter.put(leftChar, leftCharCount);
-                    if (leftCharCount == 0)
-                        patternCharsInWindow--;
+
+                if (charCountMap.containsKey(leftChar)) {
+                    Integer leftCharCount = charCountMap.get(leftChar);
+
+                    if (leftCharCount == 0) {
+                        matched--;
+                    }
+
+                    charCountMap.put(leftChar, leftCharCount+1);
                 }
+
                 left++;
             }
-
-            if (patternCharsInWindow == patternSize)
-                return true;
         }
 
         return false;
