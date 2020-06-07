@@ -128,9 +128,55 @@ public class P2SlidingWIndow {
         return maxFruits;
     }
 
+    public static int noRepeatString(String s) {
+        int left = 0;
+        int maxLength = 0;
+
+        HashMap<Character, Integer> charMap = new HashMap<>();
+
+        for (int right = 0; right < s.length(); right++) {
+            char rightChar = s.charAt(right);
+            if (charMap.containsKey(rightChar)) {
+                left = charMap.get(rightChar) + 1;
+            }
+
+            maxLength = Math.max(maxLength, right - left + 1);
+            charMap.put(rightChar, right);
+        }
+
+        return maxLength;
+    }
+
+    /**
+     * Given a string with lowercase letters only, if you are allowed to replace no more than ‘k’ letters with any letter,
+     * find the length of the longest substring having the same letters after replacement.
+     */
+    public static int longestSubstringWithSameLettersAfterReplacement(String s, int k) {
+        int left = 0;
+        int maxChars = 0;
+        int maxLength = 0;
+        HashMap<Character, Integer> charCount = new HashMap<>();
+
+        for (int right = 0; right < s.length(); right++) {
+            char rightChar = s.charAt(right);
+            charCount.put(rightChar, charCount.getOrDefault(rightChar, 0) + 1);
+            maxChars = Math.max(maxChars, charCount.get(rightChar));
+
+            if (right - left + 1 - maxChars > k) {
+                char leftChar = s.charAt(left);
+                charCount.put(leftChar, charCount.get(leftChar) - 1);
+                left++;
+            }
+            maxLength = Math.max(maxLength, right - left + 1);
+        }
+
+        return maxLength;
+    }
+
     public static void main(String[] args) {
-        char[] c = {'A', 'B', 'C', 'B', 'B', 'C'};
-        System.out.println(fruitsToBaskets(c));
+        System.out.println(longestSubstringWithSameLettersAfterReplacement("aabccbb", 2));
+        System.out.println(longestSubstringWithSameLettersAfterReplacement("abbcb", 1));
+        System.out.println(longestSubstringWithSameLettersAfterReplacement("abccde", 1));
     }
 
 }
