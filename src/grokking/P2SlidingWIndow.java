@@ -1,8 +1,6 @@
 package grokking;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class P2SlidingWIndow {
 
@@ -225,7 +223,7 @@ public class P2SlidingWIndow {
                 return true;
             }
 
-            if (right >= p.length() -1) {
+            if (right >= p.length() - 1) {
                 char leftChar = s.charAt(left);
 
                 if (charCountMap.containsKey(leftChar)) {
@@ -235,7 +233,7 @@ public class P2SlidingWIndow {
                         matched--;
                     }
 
-                    charCountMap.put(leftChar, leftCharCount+1);
+                    charCountMap.put(leftChar, leftCharCount + 1);
                 }
 
                 left++;
@@ -245,11 +243,164 @@ public class P2SlidingWIndow {
         return false;
     }
 
+    /**
+     * Challenge 2
+     * Given a string and a pattern, find all anagrams of the pattern in the given string.
+     */
+    public static List<Integer> findAllAnagrams(String str, String pattern) {
+        List<Integer> anagrams = new ArrayList<>();
+
+        // vars
+        int left = 0;
+        int matches = 0;
+
+        // init hashmap counter
+        HashMap<Character, Integer> charCounter = new HashMap<>();
+        // Calculate chars in pattern and put a value for each char
+        for (char patternChar : pattern.toCharArray()) {
+            charCounter.put(patternChar, charCounter.getOrDefault(patternChar, 0) + 1);
+        }
+
+        // sliding window loop
+        for (int right = 0; right < str.length(); right++) {
+            // if pattern includes right char decrease char counter
+            char rightChar = str.charAt(right);
+            if (charCounter.containsKey(rightChar)) {
+                Integer rightCharCounter = charCounter.get(rightChar);
+                rightCharCounter--;
+                charCounter.put(rightChar, rightCharCounter);
+                // if char counter is 0 - we have a match. increase matches
+                if (rightCharCounter == 0) {
+                    matches++;
+                }
+            }
+
+            // check if we have window is fully matched
+            if (matches == charCounter.size()) {
+                // left index is a start of a matched pattern add left index to anagrams
+                anagrams.add(left);
+            }
+
+            // check if need to drop out left element of the window
+            if (right >= pattern.length() - 1) {
+                char leftChar = str.charAt(left);
+
+                if (charCounter.containsKey(leftChar)) {
+                    Integer leftCharCounter = charCounter.get(leftChar);
+                    // check if left char counter is 0
+                    if (leftCharCounter == 0) {
+                        // decrease matches
+                        matches--;
+                    }
+
+                    // increase left char counter
+                    leftCharCounter++;
+                    charCounter.put(leftChar, leftCharCounter);
+                }
+                // increase left
+                left++;
+            }
+        }
+
+        return anagrams;
+    }
+
+    /**
+     * Challenge 3
+     * Given a string and a pattern, find the smallest substring in the given string which has all the characters of the given pattern.
+     */
+    public static String findSmallestSubtring(String s, String t) {
+        if (s.length() < t.length()) return "";
+        if (s.equals(t)) return s;
+
+        int left = 0;
+        int matches = 0;
+        int minLength = s.length();
+        int minLenIndex = -1;
+        HashMap<Character, Integer> charCounter = new HashMap<>();
+
+        for (char patternChar : t.toCharArray()) {
+            charCounter.put(patternChar, charCounter.getOrDefault(patternChar, 0) + 1);
+        }
+
+        for (int right = 0; right < s.length(); right++) {
+            char rightChar = s.charAt(right);
+            if (charCounter.containsKey(rightChar)) {
+                Integer rightCharCounter = charCounter.get(rightChar);
+                rightCharCounter--;
+                charCounter.put(rightChar, rightCharCounter);
+                if (rightCharCounter == 0)
+                    matches++;
+            }
+
+            while (matches == charCounter.size()) {
+                char leftChar = s.charAt(left);
+                if (charCounter.containsKey(leftChar)) {
+                    Integer leftCharCounter = charCounter.get(leftChar);
+
+                    if (leftCharCounter == 0) {
+                        matches--;
+                        if (right - left < minLength) {
+                            minLength = right - left;
+                            minLenIndex = left;
+                        }
+                    }
+
+                    leftCharCounter++;
+                    charCounter.put(leftChar, leftCharCounter);
+                }
+                left++;
+            }
+        }
+
+        return minLenIndex == -1 ? "" : s.substring(minLenIndex, minLenIndex + minLength + 1);
+    }
+
+    /**
+     * Challenge 3
+     * Given an array, find the length of the smallest subarray in it which when sorted will sort the whole array.
+     */
+    public static int minimumWindowSort(int[] a) {
+        int left = 0;
+        int right = a.length-1;
+
+        while (left < a.length-1 && a[left] <= a[left+1])
+            left++;
+
+        if (left == a.length-1)
+            return 0;
+
+        while (a[right] > 0 && a[right] >= a[right-1])
+            right--;
+
+        int minSub = Integer.MAX_VALUE;
+        int maxSub = Integer.MIN_VALUE;
+
+        for (int i = left; i <= right; i++) {
+            minSub = Math.min(minSub, a[i]);
+            maxSub = Math.max(maxSub, a[i]);
+        }
+
+        while (left > 0 && a[left-1] > minSub)
+            left--;
+
+        while (right < a.length-1 && a[right+1] < maxSub)
+            right++;
+
+        return right - left+1;
+    }
+
     public static void main(String[] args) {
-        System.out.println(challenge1("oidbcaf", "abc"));
-        System.out.println(challenge1("odicf", "dc"));
-        System.out.println(challenge1("bcdxabcdy", "bcdyabcdx"));
-        System.out.println(challenge1("aaacb", "abc"));
+        System.out.println(findSmallestSubtring("abc", "ac"));
+        System.out.println(findSmallestSubtring("aabdec", "abc"));
+        System.out.println(findSmallestSubtring("abdabca", "abc"));
+        System.out.println(findSmallestSubtring("adcad", "abc"));
+
+        System.out.println(minimumWindowSort(new int[] { 1, 2, 5, 3, 7, 10, 9, 12 }));
+        System.out.println(minimumWindowSort(new int[] { 1, 3, 2, 0, -1, 7, 10 }));
+        System.out.println(minimumWindowSort(new int[] { 1, 2, 3 }));
+        System.out.println(minimumWindowSort(new int[] { 3, 2, 1 }));
+
     }
 
 }
