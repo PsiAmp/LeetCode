@@ -2,7 +2,7 @@ package grokking;
 
 import java.util.*;
 
-public class P2SlidingWIndow {
+public class Part_02_SlidingWIndow {
 
     public double[] intro(int[] a, int k) {
         double[] result = new double[a.length - k + 1];

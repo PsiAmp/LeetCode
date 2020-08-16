@@ -3,7 +3,7 @@ package grokking;
 import java.util.ArrayList;
 import java.util.List;
 
-public class P6CyclicSort {
+public class Part_06_CyclicSort {
 
     /**
      * We are given an array containing ‘n’ objects. Each object, when created, was assigned a unique number from 1 to ‘n’ based on their creation sequence.

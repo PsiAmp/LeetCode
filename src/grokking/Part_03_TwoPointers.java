@@ -2,7 +2,7 @@ package grokking;
 
 import java.util.*;
 
-public class P3TwoPointers {
+public class Part_03_TwoPointers {
 
     /**
      * Given an array of sorted numbers and a target sum, find a pair in the array whose sum is equal to the given target.

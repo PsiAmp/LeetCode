@@ -2,7 +2,7 @@ package grokking;
 
 import java.util.HashMap;
 
-public class P4FastAndSlow {
+public class Part_04_FastAndSlow {
 
     static class ListNode {
         int value = 0;

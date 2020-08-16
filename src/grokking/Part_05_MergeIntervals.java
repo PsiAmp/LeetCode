@@ -2,7 +2,7 @@ package grokking;
 
 import java.util.*;
 
-public class P5MergeIntervals {
+public class Part_05_MergeIntervals {
 
     static class Interval {
         int start;
