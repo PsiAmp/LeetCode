@@ -1,9 +1,7 @@
 package interview;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class TwoPointersInterview {
 
@@ -43,4 +41,94 @@ public class TwoPointersInterview {
 
         return result;
     }
+
+    public static int searchInsert(int[] nums, int target) {
+        int left = 0;
+        int right = nums.length-1;
+
+        if (nums[left] == target || nums[left] > target)
+            return 0;
+        if (nums[right] == target)
+            return right;
+        if (nums[right] < target)
+            return right+1;
+
+
+        while (right != left) {
+            int mid = (right + left) / 2;
+            if (nums[mid] == target) return mid;
+
+            if (nums[mid] > target)
+                right = mid - 1;
+            else
+                left = mid + 1;
+        }
+
+        if (target > nums[left])
+            return left+1;
+
+        return left;
+    }
+
+    public static int findCircleNum(int[][] M) {
+        int[] F = new int[M.length];
+        for (int i = 0; i < F.length; i++) {
+            F[i] = i;
+        }
+
+        for (int i = 0; i < M.length-1; i++) {
+            for (int j = i+1; j < M.length; j++) {
+                if (M[i][j] == 1 && F[i] != F[j]) {
+                    if (F[j] == j)
+                        F[j] = F[i];
+                    else {
+                        int ip = getParent(F, i);
+                        int jp = getParent(F, j);
+                        if (ip > jp) {
+                            F[ip] = F[jp];
+                        } else {
+                            F[jp] = F[ip];
+                        }
+                    }
+                }
+            }
+        }
+
+        int count = 0;
+        for (int i = 0; i < F.length; i++) {
+            if (F[i] == i)
+                count++;
+        }
+
+        return count;
+    }
+
+    public static int getParent(int[] f, int i) {
+        while (f[i] != i)
+            i = f[i];
+        return i;
+    }
+
+    public static void main(String[] args) {
+        findCircleNum(new int[][]
+                        {
+                                {1,1,0,0,0,0,0,1,0,0,0,0,0,0,0},
+                                {1,1,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                                {0,0,1,0,0,0,0,0,0,0,0,0,0,0,0},
+                                {0,0,0,1,0,1,1,0,0,0,0,0,0,0,0},
+                                {0,0,0,0,1,0,0,0,0,1,1,0,0,0,0},
+                                {0,0,0,1,0,1,0,0,0,0,1,0,0,0,0},
+                                {0,0,0,1,0,0,1,0,1,0,0,0,0,1,0},
+                                {1,0,0,0,0,0,0,1,1,0,0,0,0,0,0},
+                                {0,0,0,0,0,0,1,1,1,0,0,0,0,1,0},
+                                {0,0,0,0,1,0,0,0,0,1,0,1,0,0,1},
+                                {0,0,0,0,1,1,0,0,0,0,1,1,0,0,0},
+                                {0,0,0,0,0,0,0,0,0,1,1,1,0,0,0},
+                                {0,0,0,0,0,0,0,0,0,0,0,0,1,0,0},
+                                {0,0,0,0,0,0,1,0,1,0,0,0,0,1,0},
+                                {0,0,0,0,0,0,0,0,0,1,0,0,0,0,1}
+                        }
+                );
+    }
+
 }
