@@ -66,11 +66,11 @@ public class Part_10_TwoHeaps {
         return W;
     }
 
-    static class Interval {
+    static class MyInterval {
         int start = 0;
         int end = 0;
 
-        Interval(int start, int end) {
+        MyInterval(int start, int end) {
             this.start = start;
             this.end = end;
         }
@@ -85,7 +85,7 @@ public class Part_10_TwoHeaps {
      * @param intervals
      * @return
      */
-    public static int[] findNextInterval(Interval[] intervals) {
+    public static int[] findNextInterval(MyInterval[] intervals) {
         int n = intervals.length;
         int[] result = new int[n];
 
@@ -113,14 +113,14 @@ public class Part_10_TwoHeaps {
     }
 
     public static void main(String[] args) {
-        Interval[] intervals = new Interval[] { new Interval(2, 3), new Interval(3, 4), new Interval(5, 6) };
+        MyInterval[] intervals = new MyInterval[] { new MyInterval(2, 3), new MyInterval(3, 4), new MyInterval(5, 6) };
         int[] result = findNextInterval(intervals);
         System.out.print("Next interval indices are: ");
         for (int index : result)
             System.out.print(index + " ");
         System.out.println();
 
-        intervals = new Interval[] { new Interval(3, 4), new Interval(1, 5), new Interval(4, 6) };
+        intervals = new MyInterval[] { new MyInterval(3, 4), new MyInterval(1, 5), new MyInterval(4, 6) };
         result = findNextInterval(intervals);
         System.out.print("Next interval indices are: ");
         for (int index : result)

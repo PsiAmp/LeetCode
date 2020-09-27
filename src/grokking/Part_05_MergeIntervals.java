@@ -4,11 +4,11 @@ import java.util.*;
 
 public class Part_05_MergeIntervals {
 
-    static class Interval {
+    static class MyInterval {
         int start;
         int end;
 
-        public Interval(int start, int end) {
+        public MyInterval(int start, int end) {
             this.start = start;
             this.end = end;
         }
@@ -17,12 +17,12 @@ public class Part_05_MergeIntervals {
     /**
      * Given a list of intervals, merge all the overlapping intervals to produce a list that has only mutually exclusive intervals.
      */
-    public static List<Interval> mergeIntervals(List<Interval> intervals) {
+    public static List<MyInterval> mergeIntervals(List<MyInterval> intervals) {
         Collections.sort(intervals, Comparator.comparingInt(o -> o.start));
-        List<Interval> mergedIntervals = new LinkedList<>();
+        List<MyInterval> mergedIntervals = new LinkedList<>();
 
-        Iterator<Interval> iterator = intervals.iterator();
-        Interval interval = iterator.next();
+        Iterator<MyInterval> iterator = intervals.iterator();
+        MyInterval interval = iterator.next();
         int start = interval.start;
         int end = interval.end;
 
@@ -32,13 +32,13 @@ public class Part_05_MergeIntervals {
             if (interval.start <= end) {
                 end = Math.max(end, interval.end);
             } else {
-                mergedIntervals.add(new Interval(start, end));
+                mergedIntervals.add(new MyInterval(start, end));
                 start = interval.start;
                 end = interval.end;
             }
         }
 
-        mergedIntervals.add(new Interval(start, end));
+        mergedIntervals.add(new MyInterval(start, end));
 
         return mergedIntervals;
     }
@@ -48,8 +48,8 @@ public class Part_05_MergeIntervals {
      * and merge all necessary intervals to produce a list that has only mutually exclusive intervals.
      * https://leetcode.com/problems/insert-interval/submissions/
      */
-    public static List<Interval> insertInterval(List<Interval> intervals, Interval newInterval) {
-        List<Interval> mergedIntervals = new ArrayList<>();
+    public static List<MyInterval> insertInterval(List<MyInterval> intervals, MyInterval newInterval) {
+        List<MyInterval> mergedIntervals = new ArrayList<>();
 
         int i = 0;
         while (i < intervals.size() && intervals.get(i).end < newInterval.start) {
@@ -75,15 +75,15 @@ public class Part_05_MergeIntervals {
      * Given two lists of intervals, find the intersection of these two lists.
      * Each list consists of disjoint intervals sorted on their start time.
      */
-    public static Interval[] mergeIntervalsIntersection(Interval[] arr1, Interval[] arr2) {
-        List<Interval> intervalsIntersection = new ArrayList<Interval>();
+    public static MyInterval[] mergeIntervalsIntersection(MyInterval[] arr1, MyInterval[] arr2) {
+        List<MyInterval> intervalsIntersection = new ArrayList<MyInterval>();
 
         int i = 0;
         int j = 0;
 
         while (i < arr1.length && j < arr2.length) {
             if (arr1[i].start <= arr2[j].start && arr1[i].end >= arr2[j].start || arr1[i].start >= arr2[j].start && arr1[i].start <= arr2[j].end) {
-                intervalsIntersection.add(new Interval(Math.max(arr1[i].start, arr2[j].start), Math.min(arr1[i].end, arr2[j].end)));
+                intervalsIntersection.add(new MyInterval(Math.max(arr1[i].start, arr2[j].start), Math.min(arr1[i].end, arr2[j].end)));
             }
 
             if (arr1[i].end < arr2[j].end) {
@@ -93,13 +93,13 @@ public class Part_05_MergeIntervals {
             }
         }
 
-        return intervalsIntersection.toArray(new Interval[intervalsIntersection.size()]);
+        return intervalsIntersection.toArray(new MyInterval[intervalsIntersection.size()]);
     }
 
     /**
      * Given an array of intervals representing ‘N’ appointments, find out if a person can attend all the appointments.
      */
-    public static boolean canAttendAllAppointments(Interval[] intervals) {
+    public static boolean canAttendAllAppointments(MyInterval[] intervals) {
         Arrays.sort(intervals, Comparator.comparingInt(o -> o.start));
 
         for (int i = 0; i < intervals.length - 1; i++) {
@@ -190,13 +190,13 @@ public class Part_05_MergeIntervals {
      * Our goal is to find out if there is a free interval that is common to all employees.
      * You can assume that each list of employee working hours is sorted on the start time.
      */
-    public static List<Interval> findEmployeeFreeTime(List<List<Interval>> schedule) {
-        List<Interval> result = new ArrayList<>();
+    public static List<MyInterval> findEmployeeFreeTime(List<List<MyInterval>> schedule) {
+        List<MyInterval> result = new ArrayList<>();
 
         // space complexity O(N)
-        List<Interval> sched = new LinkedList<>();
-        for (List<Interval> intervals : schedule) {
-            for (Interval interval : intervals) {
+        List<MyInterval> sched = new LinkedList<>();
+        for (List<MyInterval> intervals : schedule) {
+            for (MyInterval interval : intervals) {
                 sched.add(interval);
             }
         }
@@ -204,11 +204,11 @@ public class Part_05_MergeIntervals {
         sched.sort(Comparator.comparingInt(o -> o.start));
 
         // space complexity O(N)
-        PriorityQueue<Interval> pq = new PriorityQueue<>(Comparator.comparing(o1 -> o1.end, Comparator.reverseOrder()));
+        PriorityQueue<MyInterval> pq = new PriorityQueue<>(Comparator.comparing(o1 -> o1.end, Comparator.reverseOrder()));
 
-        for (Interval interval : sched) {
+        for (MyInterval interval : sched) {
             if (!pq.isEmpty() && interval.start > pq.peek().end) {
-                result.add(new Interval(pq.peek().end, interval.start));
+                result.add(new MyInterval(pq.peek().end, interval.start));
             }
             // time complexity O(logN) N times
             pq.add(interval);
