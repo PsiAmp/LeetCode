@@ -102,7 +102,7 @@ public class Part_14_TopKElements {
     }
 
     /**
-     * Given an array of points in the a 2D2D2D plane, find ‘K’ closest points to the origin.
+     * Given an array of points in the a 2-d plane, find ‘K’ closest points to the origin.
      */
     public static List<Point> findClosestPoints(Point[] points, int k) {
         ArrayList<Point> result = new ArrayList<>();
