@@ -121,6 +121,7 @@ public class Part_13_XOR {
                 {0,1,1,1},
                 {1,0,1,0}};
         print(flipAndInvertImage(arr2));
+
     }
 
 }

@@ -5,8 +5,6 @@ import java.util.LinkedList;
 
 public class Snake {
 
-
-
     public final Coordinate[] MOVEMENT = {
             new Coordinate(-1, 0), // Left
             new Coordinate(0, -1), // Up

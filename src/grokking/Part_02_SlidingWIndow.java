@@ -26,6 +26,28 @@ public class Part_02_SlidingWIndow {
     /**
      * Given an array of positive numbers and a positive number ‘k’, find the maximum sum of any contiguous subarray of size ‘k’.
      */
+    public int[] maxSumSubArray2(int[] a, int k) {
+        int max = Integer.MIN_VALUE;
+        int sum = 0;
+        int maxi = 0;
+        for (int i = 0; i < a.length; i++) {
+            sum += a[i];
+            if (i >= k) {
+                if (sum > max) {
+                    max = sum;
+                    maxi = i;
+                }
+                sum -= a[i - k];
+            }
+        }
+
+        int[] result = new int[k];
+        for (int i = result.length - 1; i >= 0; i--) {
+            result[i] = a[maxi - i];
+        }
+        return result;
+    }
+
     public int[] maxSumSubArray(int[] a, int k) {
         int left = 0;
         int right = 0;
@@ -101,8 +123,10 @@ public class Part_02_SlidingWIndow {
     }
 
     /**
-     * Given an array of characters where each character represents a fruit tree, you are given two baskets and your goal is to put maximum number of fruits in each basket. The only restriction is that each basket can have only one type of fruit.
-     * You can start with any tree, but once you have started you can’t skip a tree. You will pick one fruit from each tree until you cannot, i.e., you will stop when you have to pick from a third fruit type.
+     * Given an array of characters where each character represents a fruit tree, you are given two baskets and your goal is to put maximum number of fruits in each basket.
+     * The only restriction is that each basket can have only one type of fruit.
+     * You can start with any tree, but once you have started you can’t skip a tree.
+     * You will pick one fruit from each tree until you cannot, i.e., you will stop when you have to pick from a third fruit type.
      * Write a function to return the maximum number of fruits in both the baskets.
      */
     public static int fruitsToBaskets(char[] a) {
@@ -362,15 +386,15 @@ public class Part_02_SlidingWIndow {
      */
     public static int minimumWindowSort(int[] a) {
         int left = 0;
-        int right = a.length-1;
+        int right = a.length - 1;
 
-        while (left < a.length-1 && a[left] <= a[left+1])
+        while (left < a.length - 1 && a[left] <= a[left + 1])
             left++;
 
-        if (left == a.length-1)
+        if (left == a.length - 1)
             return 0;
 
-        while (a[right] > 0 && a[right] >= a[right-1])
+        while (a[right] > 0 && a[right] >= a[right - 1])
             right--;
 
         int minSub = Integer.MAX_VALUE;
@@ -381,13 +405,13 @@ public class Part_02_SlidingWIndow {
             maxSub = Math.max(maxSub, a[i]);
         }
 
-        while (left > 0 && a[left-1] > minSub)
+        while (left > 0 && a[left - 1] > minSub)
             left--;
 
-        while (right < a.length-1 && a[right+1] < maxSub)
+        while (right < a.length - 1 && a[right + 1] < maxSub)
             right++;
 
-        return right - left+1;
+        return right - left + 1;
     }
 
     public static void main(String[] args) {
@@ -396,10 +420,15 @@ public class Part_02_SlidingWIndow {
         System.out.println(findSmallestSubtring("abdabca", "abc"));
         System.out.println(findSmallestSubtring("adcad", "abc"));
 
-        System.out.println(minimumWindowSort(new int[] { 1, 2, 5, 3, 7, 10, 9, 12 }));
-        System.out.println(minimumWindowSort(new int[] { 1, 3, 2, 0, -1, 7, 10 }));
-        System.out.println(minimumWindowSort(new int[] { 1, 2, 3 }));
-        System.out.println(minimumWindowSort(new int[] { 3, 2, 1 }));
+        System.out.println(minimumWindowSort(new int[]{1, 2, 5, 3, 7, 10, 9, 12}));
+        System.out.println(minimumWindowSort(new int[]{1, 3, 2, 0, -1, 7, 10}));
+        System.out.println(minimumWindowSort(new int[]{1, 2, 3}));
+        System.out.println(minimumWindowSort(new int[]{3, 2, 1}));
+        
+        Map<Integer, Integer> m = new HashMap<>();
+        for (Integer value : m.values()) {
+            
+        }
 
     }
 

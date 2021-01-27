@@ -319,6 +319,35 @@ public class Part_11_Subsets {
     }
 
     /**
+     * 47. Permutations II
+     * https://leetcode.com/problems/permutations-ii/
+     * Given a collection of numbers, nums, that might contain duplicates, return all possible unique permutations in any order.
+     */
+    public static List<List<Integer>> permuteUnique(int[] nums) {
+        List<List<Integer>> permutations = new ArrayList<>();
+        Arrays.sort(nums);
+        perm(nums, permutations, new ArrayList(), new boolean[nums.length]);
+        return permutations;
+    }
+
+    private static void perm(int[] nums, List<List<Integer>> permutations, List<Integer> templist, boolean[] visited) {
+        if (templist.size() == nums.length) {
+            permutations.add(new ArrayList(templist));
+        } else {
+            for (int i = 0; i < nums.length; i++) {
+                if (visited[i] || i > 0 && nums[i] == nums[i-1] && !visited[i-1])
+                    continue;
+
+                visited[i] = true;
+                templist.add(nums[i]);
+                perm(nums, permutations, templist, visited);
+                templist.remove(templist.size()-1);
+                visited[i] = false;
+            }
+        }
+    }
+
+    /**
      * Given a number ‘n’, write a function to return the count of
      * structurally unique Binary Search Trees (BST) that can store values 1 to ‘n’.
      */
@@ -340,6 +369,6 @@ public class Part_11_Subsets {
     }
 
     public static void main(String[] args) {
-        System.out.println(countTrees(2));
+        System.out.println(permuteUnique(new int[]{1, 1, 2}));
     }
 }
