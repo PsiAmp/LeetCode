@@ -23,7 +23,7 @@ public class P0784_LetterCasePermutation {
             res[i] = s.toCharArray();
         }
 
-        // a A
+        // a tst.A
         // ab Ab aB AB
         // abc Abc aBc ABc abC AbC aBC ABC
         int step = 1;

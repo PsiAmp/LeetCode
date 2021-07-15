@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Given an array A of 0s and 1s, we may change up to K values from 0 to 1.
+ * Given an array tst.A of 0s and 1s, we may change up to K values from 0 to 1.
  * Return the length of the longest (contiguous) subarray that contains only 1s.
  */
 public class MaxConsecutiveOnes3_1004 {

@@ -6,7 +6,7 @@ import java.util.Random;
 public class FindFirstAndLastPositionOfElementInSortedArray_34 {
 
     /**
-     * @param nums - sorted array, such as A[i] <= A[i+1] (monotonic non-decreasing array)
+     * @param nums - sorted array, such as tst.A[i] <= tst.A[i+1] (monotonic non-decreasing array)
      * @param left - left index of a range in nums to search target
      * @param right - right index of a range in nums to search target
      * @param target - value to search in array

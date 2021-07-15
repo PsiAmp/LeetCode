@@ -1,5 +1,7 @@
 package problems;
 
+import utils.TreeNode;
+
 import java.util.*;
 
 public class P987_VerticalOrderTraversalOfABinaryTree {

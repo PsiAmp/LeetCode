@@ -30,7 +30,7 @@ public class SnakeTheGame extends JPanel {
 
         int i = 0;
         for (Coordinate snakeElement : snake.getBody()) {
-            g.setColor(new Color(47, 59,13, 255 - 255*i/snake.getBody().size()/2));
+            g.setColor(new Color(47, 59,13, 255 - 255 * i / snake.getBody().size() / 2));
             g.drawRect(snakeElement.x * rectangleSize, snakeElement.y * rectangleSize, rectangleSize, rectangleSize);
             i++;
         }
